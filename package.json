@@ -1,0 +1,25 @@
+{
+  "name": "find-a-friend-api",
+  "version": "1.0.0",
+  "description": "API voltada para facilitar a adoção de cahorros",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup src --out-dir build",
+    "start-build": "node build/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "20.12.7",
+    "tsup": "8.0.2",
+    "tsx": "4.7.2",
+    "typescript": "5.4.4"
+  },
+  "dependencies": {
+    "dotenv": "16.4.5",
+    "fastify": "4.26.2",
+    "zod": "3.22.4"
+  }
+}
