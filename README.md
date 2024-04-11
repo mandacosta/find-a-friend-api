@@ -1,6 +1,6 @@
-# Find a Friend API 🐶
+# Find a Friend API 🐶🐱
 
-API voltada para facilitar a adoção de cahorros
+API voltada para facilitar a adoção de cahorros e gatos
 
 ## RFs (Requisitos funcionais)
 
@@ -43,6 +43,7 @@ post('/org')
     id_org: uuid,
     nome: string
     tipo: [cão, gato],
+    genero: [F, M],
     idade: [filhote, adulto, idoso],
     energia: [1,2,3,4,5],
     porte: [mini, pequeno, médio, grande]
