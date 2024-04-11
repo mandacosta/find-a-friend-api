@@ -22,7 +22,45 @@ API voltada para facilitar a adoção de cahorros
 
 ## RNFs (Requisitos não-funcionais)
 
-- [] A senha do usuário precisa estar criptografada;
+- [] A senha da organização precisa estar criptografada;
 - [] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [] Todas listas de dados precisam estar paginadas com 20 itens por página;
-- [] O usuário deve ser identificado por um JWT (JSON Web Token);
+- [] A organização deve ser identificado por um JWT (JSON Web Token);
+
+
+## Rotas da aplicação
+
+post('/pet) -> autenticada
+get('/pet/:id_cidade'/:id_pet?/...filtros...)
+get('whatsapp_link/:id_pet')
+
+post('/auth')
+post('/org')
+
+## Dados dos pets
+{
+    id: uuid,
+    id_org: uuid,
+    nome: string
+    tipo: [cão, gato],
+    idade: [filhote, adulto, idoso],
+    energia: [1,2,3,4,5],
+    porte: [mini, pequeno, médio, grande]
+    independencia: [1,2,3],
+    restricoes: [string]
+}
+
+## Dados das orgs
+{
+    id: uuid,
+    nome: string,
+    email: string,
+    cep: 8 dígitos validados com uma api,
+    endereco:
+    numero:
+    complemento:
+    whatsapp: validar que é um numero verdadeiro,
+    senha:
+
+}
+
