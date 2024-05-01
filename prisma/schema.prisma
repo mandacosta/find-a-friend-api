@@ -65,6 +65,8 @@ model Org {
   email           String  @unique
   name            String
   zipcode         String
+  city            String
+  state           String
   address         String
   number          String
   additional_info String?
