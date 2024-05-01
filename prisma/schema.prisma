@@ -68,7 +68,6 @@ model Org {
   city            String
   state           String
   address         String
-  number          String
   additional_info String?
   whatsapp_phone  String
   password_hash   String

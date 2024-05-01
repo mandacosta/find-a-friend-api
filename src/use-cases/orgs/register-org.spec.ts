@@ -3,6 +3,7 @@ import { describe, expect, it, beforeEach } from 'vitest'
 import { RegisterOrgUseCase } from './register-org'
 import { OrgAlreadyExistsError } from '../errors/org-already-exists-error'
 import { compare } from 'bcryptjs'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 let orgsRepository: InMemoryOrgsRepository
 let sut: RegisterOrgUseCase
@@ -14,13 +15,10 @@ describe('Register new Org', () => {
   })
   it('should properly hash passoword', async () => {
     const org_ = {
-      address: 'Rua Giovanni Legrenzi',
-      city: 'São Paulo',
+      address: 'Rua Giovanni Legrenzi, 45',
       email: 'amigosdobem@gmail.com',
       name: 'Amigos do Bem',
-      number: '607',
       password: '12345',
-      state: 'SP',
       whatsapp_phone: '5511991988357',
       zipcode: '08225270',
       additional_info: 'Casa A',
@@ -37,13 +35,10 @@ describe('Register new Org', () => {
 
   it('should not allow email duplicity', async () => {
     const org_ = {
-      address: 'Rua Giovanni Legrenzi',
-      city: 'São Paulo',
+      address: 'Rua Giovanni Legrenzi, 45',
       email: 'amigosdobem@gmail.com',
       name: 'Amigos do Bem',
-      number: '607',
       password: '12345',
-      state: 'SP',
       whatsapp_phone: '5511991988357',
       zipcode: '08225270',
       additional_info: 'Casa A',
@@ -56,15 +51,28 @@ describe('Register new Org', () => {
     )
   })
 
-  it('should register a new Org', async () => {
+  it('should not register with a wrong cep', async () => {
     const org_ = {
-      address: 'Rua Giovanni Legrenzi',
-      city: 'São Paulo',
+      address: 'Rua Giovanni Legrenzi, 45',
       email: 'amigosdobem@gmail.com',
       name: 'Amigos do Bem',
-      number: '607',
       password: '12345',
-      state: 'SP',
+      whatsapp_phone: '5511991988357',
+      zipcode: '0000000',
+      additional_info: 'Casa A',
+    }
+
+    await expect(() => sut.execute(org_)).rejects.toBeInstanceOf(
+      ResourceNotFoundError,
+    )
+  })
+
+  it('should register a new Org', async () => {
+    const org_ = {
+      address: 'Rua Giovanni Legrenzi, 45',
+      email: 'amigosdobem@gmail.com',
+      name: 'Amigos do Bem',
+      password: '12345',
       whatsapp_phone: '5511991988357',
       zipcode: '08225270',
       additional_info: 'Casa A',

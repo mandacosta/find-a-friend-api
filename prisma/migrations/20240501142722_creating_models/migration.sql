@@ -33,7 +33,6 @@ CREATE TABLE "orgs" (
     "name" TEXT NOT NULL,
     "zipcode" TEXT NOT NULL,
     "address" TEXT NOT NULL,
-    "number" TEXT NOT NULL,
     "additional_info" TEXT,
     "whatsapp_phone" TEXT NOT NULL,
     "password_hash" TEXT NOT NULL,
