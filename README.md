@@ -50,6 +50,12 @@ post('/org')
     restricoes: [string]
 }
 
+## Restrições
+{
+    pet_id: uuid,
+    restrição: string
+}
+
 ## Dados das orgs
 {
     id: uuid,

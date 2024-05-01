@@ -12,3 +12,73 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Type {
+  DOG
+  CAT
+}
+
+enum Energy {
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
+
+enum Independency {
+  ONE
+  TWO
+  THREE
+}
+
+enum Age {
+  PUPPY
+  GROWNUP
+  VETERAN
+}
+
+enum Size {
+  TINY
+  SMALL
+  MEDIUM
+  BIG
+}
+
+model Pet {
+  id           String        @id @default(uuid())
+  name         String
+  type         Type          @default(DOG)
+  age          Age           @default(GROWNUP)
+  energy       Energy        @default(THREE)
+  size         Size          @default(MEDIUM)
+  independency Independency  @default(TWO)
+  org          Org           @relation(fields: [org_id], references: [id])
+  org_id       String
+  restrictions Restriction[]
+
+  @@map("pets")
+}
+
+model Org {
+  id              String  @id @default(uuid())
+  name            String
+  zipcode         String
+  address         String
+  number          String
+  additional_info String?
+  whatsapp_phone  String
+  password_hash   String
+  pets            Pet[]
+
+  @@map("orgs")
+}
+
+model Restriction {
+  id          String @id @default(uuid())
+  restriction String
+  pet         Pet    @relation(fields: [pet_id], references: [id])
+  pet_id      String
+
+  @@map("restrictions")
+}
