@@ -36,11 +36,17 @@ export class InMemoryOrgsRepository implements IOrgsRepository {
     return org
   }
 
-  async findById(id: string) {
-    throw new Error('Method not implemented.')
-  }
+  // async findById(id: string) {
+  //   throw new Error('Method not implemented.')
+  // }
 
   async findByEmail(email: string) {
-    throw new Error('Method not implemented.')
+    const org = this.repository.find((org) => org.email === email)
+
+    if (!org) {
+      return null
+    }
+
+    return org
   }
 }
