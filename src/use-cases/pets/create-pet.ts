@@ -6,11 +6,11 @@ import { IRestrictionsRepository } from '@/repositories/interfaces/interface-res
 
 interface UseCaseRequest {
   name: string
-  type: Type
-  age: Age
-  energy: Energy
-  size: Size
-  independency: Independency
+  type?: Type
+  age?: Age
+  energy?: Energy
+  size?: Size
+  independency?: Independency
   org_id: string
   restrictions_list: string[]
 }
