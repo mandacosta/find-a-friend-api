@@ -2,6 +2,7 @@
 import { Pet, Prisma } from '@prisma/client'
 import { IPetsRepository } from '../interfaces/interface-pets-repository'
 import { randomUUID } from 'crypto'
+import { InMemoryOrgsRepository } from './in-memory-orgs-repository'
 
 export class InMemoryPetsRepository implements IPetsRepository {
   public repository: Pet[] = []
@@ -30,25 +31,32 @@ export class InMemoryPetsRepository implements IPetsRepository {
     return pet
   }
 
-  async searchMany(city: string, query: string, page: number) {
-    const string = 'energy=TWO&age=PUPPY&size=MEDIUM'
-    const filters = string.split('&')
-    const pairs = filters.reduce((acc, act) => {
-      const key_value = act.split('=')
-      const key = key_value[0]
-      const value = key_value[1]
-      acc[key] = value
-      return acc
-    }, {})
-    console.log(pairs)
+  async searchMany(
+    city: string,
+    filters: Record<string, string>,
+    page: number,
+  ) {
+    const orgsRepository = new InMemoryOrgsRepository()
+    const orgsFromCity = await orgsRepository.filterOrgsByCity(city)
+    const orgsIdFromCity = orgsFromCity.map((org) => org.id)
+
     return this.repository
       .filter((pet) => {
         let good = true
-        for (const key in pairs) {
-          if (pairs[key] !== pet[key]) {
+
+        // Valida a cidade do Pet
+        if (!orgsIdFromCity.includes(pet.org_id)) {
+          return false
+        }
+
+        // Valida as características do Pet
+        for (const key in filters) {
+          if (pet[key as keyof Pet] !== filters[key]) {
             good = false
           }
         }
+
+        return good
       })
       .slice((page - 1) * 20, page * 20)
   }

@@ -43,4 +43,10 @@ export class InMemoryOrgsRepository implements IOrgsRepository {
 
     return org
   }
+
+  async filterOrgsByCity(city: string) {
+    const orgs = this.repository.filter((org) => org.city === city)
+
+    return orgs
+  }
 }

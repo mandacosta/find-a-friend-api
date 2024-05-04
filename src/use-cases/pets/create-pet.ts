@@ -4,7 +4,7 @@ import { Age, Energy, Independency, Pet, Size, Type } from '@prisma/client'
 import { IPetsRepository } from '@/repositories/interfaces/interface-pets-repository'
 import { IRestrictionsRepository } from '@/repositories/interfaces/interface-restrictions-repository'
 
-interface UseCaseRequest {
+export interface PetCreationUseCaseRequest {
   name: string
   type?: Type
   age?: Age
@@ -34,7 +34,7 @@ export class CreatePetUseCase {
     independency,
     org_id,
     restrictions_list,
-  }: UseCaseRequest): Promise<UseCaseResponse> {
+  }: PetCreationUseCaseRequest): Promise<UseCaseResponse> {
     const pet = await this.PetsRepository.create({
       name,
       type,
@@ -52,9 +52,7 @@ export class CreatePetUseCase {
       }
     })
 
-    await this.RestrictionsRepository.createMany({
-      data: restriction_list_final,
-    })
+    await this.RestrictionsRepository.createMany(restriction_list_final)
 
     return { pet }
   }
