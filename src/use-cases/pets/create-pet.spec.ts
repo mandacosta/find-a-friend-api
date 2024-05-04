@@ -55,8 +55,10 @@ describe('Create new Pet', () => {
     // Validar se as restrições foram criadas
     const restrictions = await restrictionsRepository.findMany(pet.id)
     expect(restrictions).toHaveLength(3)
-    expect(restrictions).toEqual([
-      expect.objectContaining({ restriction: 'Likes humans' }),
-    ])
+
+    const restriction = restrictions.filter(
+      (obj) => obj.restriction === 'Likes humans',
+    )
+    expect(restriction).toHaveLength(1)
   })
 })
