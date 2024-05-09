@@ -21,7 +21,15 @@ export class FetchPetsByCityAndFeaturesUseCase {
     filters,
     page,
   }: UseCaseRequest): Promise<UseCaseResponse> {
-    const pets = await this.PetsRepository.searchMany(city, filters, page)
+    const cityNormalized = city
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toUpperCase()
+    const pets = await this.PetsRepository.searchMany(
+      cityNormalized,
+      filters,
+      page,
+    )
 
     return { pets }
   }

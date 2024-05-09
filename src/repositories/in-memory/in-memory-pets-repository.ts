@@ -2,10 +2,16 @@
 import { Pet, Prisma } from '@prisma/client'
 import { IPetsRepository } from '../interfaces/interface-pets-repository'
 import { randomUUID } from 'crypto'
-import { InMemoryOrgsRepository } from './in-memory-orgs-repository'
+import { IOrgsRepository } from '../interfaces/interface-orgs-repository'
 
 export class InMemoryPetsRepository implements IPetsRepository {
   public repository: Pet[] = []
+  private orgsRepository: IOrgsRepository
+
+  constructor(orgsRepository: IOrgsRepository) {
+    this.orgsRepository = orgsRepository
+  }
+
   async create(data: Prisma.PetUncheckedCreateInput) {
     const pet = {
       id: randomUUID(),
@@ -36,8 +42,7 @@ export class InMemoryPetsRepository implements IPetsRepository {
     filters: Record<string, string>,
     page: number,
   ) {
-    const orgsRepository = new InMemoryOrgsRepository()
-    const orgsFromCity = await orgsRepository.filterOrgsByCity(city)
+    const orgsFromCity = await this.orgsRepository.filterOrgsByCity(city)
     const orgsIdFromCity = orgsFromCity.map((org) => org.id)
 
     return this.repository
